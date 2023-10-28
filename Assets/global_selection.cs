@@ -68,6 +68,8 @@ public class global_selection : MonoBehaviour
                     else //exclusive selected
                     {
                         selected_table.deselectAll();
+
+                        
                         selected_table.addSelected(hit.transform.gameObject);
                     }
                 }

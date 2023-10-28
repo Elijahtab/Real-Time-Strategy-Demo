@@ -34,5 +34,6 @@ public class selected_dictionary : MonoBehaviour
             }
         }
         selectedTable.Clear();
+        
     }
 }

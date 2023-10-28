@@ -9,6 +9,17 @@ public class selection_component : MonoBehaviour
     {
         GetComponent<Renderer>().material.color = Color.red;
     }
+    void Update()
+    {
+         if (GetComponent<Renderer>().material.color == Color.red)
+        {
+        
+        }
+        else
+        {
+            GetComponent<Renderer>().material.color = Color.red;
+        }
+    }
 
     private void OnDestroy()
     {
