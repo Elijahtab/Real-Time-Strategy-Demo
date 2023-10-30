@@ -58,9 +58,7 @@ public class global_selection : MonoBehaviour
             if(dragSelect == false) //single select
             {
                 Ray ray = Camera.main.ScreenPointToRay(p1);
-                int layerMask = 1 << 10;
-                
-                
+                int layerMask = 1 << 10;   
 
                 if(Physics.Raycast(ray,out hit, 50000.0f, layerMask))
                 {
@@ -76,6 +74,13 @@ public class global_selection : MonoBehaviour
                         if(keyIsWithin == true)
                         {
                             selected_table.deselect(id);
+                        }
+                        else //exclusive selected
+                        {
+                            selected_table.deselectAll();
+
+                            
+                            selected_table.addSelected(hit.transform.gameObject);
                         }
                     }
                     else //exclusive selected
