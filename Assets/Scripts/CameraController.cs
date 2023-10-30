@@ -18,11 +18,10 @@ public class CameraController : MonoBehaviour
     private float maxHeight;
     [SerializeField]
     private float minHeight;
+    
+    //Camera tilt limits
     [SerializeField]
     private float minRotationHeight = 60;
-
-    //Rotation Limits
-    //private bool VerticalRotationEnabled = true;
 
     //Fast and normal movement speeds.
     [SerializeField]
@@ -30,10 +29,15 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float normalMovement;
 
-    //Scroll speed
+    //Scroll speed, shiftScrollMultiplier, and position variable for newPosition.y
     [SerializeField]
-    private float scrollSpeed;
+    private float scrollSpeed = 50.0f;
+    public float shiftScrollSpeedMultiplier = 5.0f;
+    private float newPositionY;
 
+
+
+    //Vector3 Position for camera
     public Vector3 newPosition;
 
     // Start is called before the first frame update
@@ -82,33 +86,30 @@ public class CameraController : MonoBehaviour
         }
 
         //Gets input from scrollWheel
-        float scroll = -scrollSpeed * Input.GetAxis("Mouse ScrollWheel");
-
-        if((transform.position.y >= maxHeight) && (scroll > 0)) 
-        {
-            scroll = 0;
+        float scroll = -Input.GetAxis("Mouse ScrollWheel");
+        //Increases downward scrolling
+        if (scroll < 0){
+            scroll = scroll * 2;
         }
-        else if((transform.position.y <= minHeight) && (scroll > 0))
-        {
-            scroll = 0;
-        }
-
-        //Stops camera from going past the max and min
-        if((transform.position.y + scroll) > maxHeight) 
-        {
-            scroll = maxHeight - transform.position.y;
-        }
-        else if((transform.position.y + scroll) < minHeight)
-        {
-            scroll = minHeight - transform.position.y;
+        float effectiveScrollSpeed = scrollSpeed;
+        
+        //Lets you speed up scroll with shift keys.
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
+            effectiveScrollSpeed *= shiftScrollSpeedMultiplier;
         }
 
-        //Creates Vector3 variable that only has value for Y axis.
-        Vector3 verticalMovement = new Vector3(0, scroll, 0);
+        //Limits the camera height between min and max height. If statement is used to keep the speed high until 
+        //we get close to the min or max.
+        if(transform.position.y < minHeight + 5 || transform.position.y > maxHeight - 5)
+        {
+            newPositionY = Mathf.Clamp(transform.position.y + scroll *effectiveScrollSpeed, minHeight, maxHeight);
+        }
+        else {
+            newPositionY = transform.position.y + scroll *effectiveScrollSpeed;
+        }
 
-        //Adds the new Y axis variable to newPosition
-        newPosition = newPosition + verticalMovement;
-
+        //Sets camera's y axis to the scroll position.
+        newPosition.y = newPositionY;
         //Updates the position of the camera using Vector3.Lerp for smooth movement.
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
     }
@@ -130,8 +131,8 @@ public class CameraController : MonoBehaviour
             // Calculate the new X rotation
             float newChildXRotation = currentChildRotation.eulerAngles.x - verticalRotation;
 
-            // Limit the X rotation to be between 1 and 60 degrees
-            newChildXRotation = Mathf.Clamp(newChildXRotation, 1, minRotationHeight);
+            // Limit the X rotation to be between 10 and 60 degrees
+            newChildXRotation = Mathf.Clamp(newChildXRotation, 10, minRotationHeight);
 
             // Set the new rotation of the child object
             transform.GetChild(0).transform.rotation = Quaternion.Euler(newChildXRotation, currentChildRotation.eulerAngles.y, currentChildRotation.eulerAngles.z);
