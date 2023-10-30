@@ -18,9 +18,11 @@ public class CameraController : MonoBehaviour
     private float maxHeight;
     [SerializeField]
     private float minHeight;
+    [SerializeField]
+    private float minRotationHeight = 60;
 
     //Rotation Limits
-    private bool VerticalRotationEnabled = true;
+    //private bool VerticalRotationEnabled = true;
 
     //Fast and normal movement speeds.
     [SerializeField]
@@ -43,12 +45,12 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraMovment();
+        CameraMovement();
         MouseRotation();
     }
     
     //Camera movement using WASD, LeftShift, and ScrollWheel
-    void CameraMovment()
+    void CameraMovement()
     {
 
         //Checks if left shift key is pressed.
@@ -121,15 +123,22 @@ public class CameraController : MonoBehaviour
             p2 = Input.mousePosition;
             float horizontalRotation = (p2.x - p1.x) * rotateSpeed * Time.deltaTime;
             float verticalRotation = (p2.y - p1.y) * rotateSpeed * Time.deltaTime;
-            
-            if ((transform.GetChild(0).transform.rotation.eulerAngles.x) >= 60)
-            {
-                Debug.Log(transform.GetChild(0).transform.rotation.eulerAngles.x);
-                verticalRotation = 60;
 
-            }
-            transform.rotation *= Quaternion.Euler(new Vector3(0, horizontalRotation, 0)); //Y rotation
-            transform.GetChild(0).transform.rotation *= Quaternion.Euler(new Vector3(-verticalRotation, 0, 0));
+            // Get the current rotation of the child object
+            Quaternion currentChildRotation = transform.GetChild(0).transform.rotation;
+
+            // Calculate the new X rotation
+            float newChildXRotation = currentChildRotation.eulerAngles.x - verticalRotation;
+
+            // Limit the X rotation to be between 1 and 60 degrees
+            newChildXRotation = Mathf.Clamp(newChildXRotation, 1, minRotationHeight);
+
+            // Set the new rotation of the child object
+            transform.GetChild(0).transform.rotation = Quaternion.Euler(newChildXRotation, currentChildRotation.eulerAngles.y, currentChildRotation.eulerAngles.z);
+
+            // Apply the Y rotation to the main camera
+            transform.rotation *= Quaternion.Euler(new Vector3(0, horizontalRotation, 0));
+
             p1 = p2;
         }
     }
