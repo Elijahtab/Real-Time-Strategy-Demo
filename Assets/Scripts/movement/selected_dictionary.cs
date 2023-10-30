@@ -14,7 +14,14 @@ public class selected_dictionary : MonoBehaviour
         {
             selectedTable.Add(id, go);
             go.AddComponent<selection_component>();
-            Debug.Log("Added " + id + " to selected dict");
+            foreach (KeyValuePair<int,GameObject> pair in selectedTable)
+            {
+                MovementScript movementScript = selectedTable[pair.Key].GetComponent<MovementScript>();
+                if (movementScript != null)
+                {
+                    movementScript.isSelected = true; // Change the variable for each object
+                }
+            }
         }
     }
 
@@ -22,6 +29,11 @@ public class selected_dictionary : MonoBehaviour
     {
         Destroy(selectedTable[id].GetComponent<selection_component>());
         selectedTable.Remove(id);
+        MovementScript movementScript = selectedTable[id].GetComponent<MovementScript>();
+        if (movementScript != null)
+        {
+                movementScript.isSelected = false; // Change the variable for each object
+        }
     }
 
     public void deselectAll()
@@ -31,7 +43,13 @@ public class selected_dictionary : MonoBehaviour
             if(pair.Value != null)
             {
                 Destroy(selectedTable[pair.Key].GetComponent<selection_component>());
+                MovementScript movementScript = selectedTable[pair.Key].GetComponent<MovementScript>();
+                if (movementScript != null)
+                {
+                    movementScript.isSelected = false; // Change the variable for each object
+                }
             }
+            
         }
         selectedTable.Clear();
         
