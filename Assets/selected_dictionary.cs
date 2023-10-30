@@ -36,4 +36,12 @@ public class selected_dictionary : MonoBehaviour
         selectedTable.Clear();
         
     }
+    public bool isKeyWithin(int id)
+    {
+        return selectedTable.ContainsKey(id);
+    }
+    public int numOfEntries()
+    {
+        return selectedTable.Count;
+    }
 }

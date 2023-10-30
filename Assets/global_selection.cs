@@ -59,11 +59,24 @@ public class global_selection : MonoBehaviour
             {
                 Ray ray = Camera.main.ScreenPointToRay(p1);
                 int layerMask = 1 << 10;
+                
+                
+
                 if(Physics.Raycast(ray,out hit, 50000.0f, layerMask))
                 {
+                    bool keyIsWithin = selected_table.isKeyWithin(hit.transform.gameObject.GetInstanceID());
+                    int id = hit.transform.gameObject.GetInstanceID();
+                    int count = selected_table.numOfEntries();
                     if (Input.GetKey(KeyCode.LeftShift)) //inclusive select
                     {
                         selected_table.addSelected(hit.transform.gameObject);
+                    }
+                    else if(count == 1)
+                    {
+                        if(keyIsWithin == true)
+                        {
+                            selected_table.deselect(id);
+                        }
                     }
                     else //exclusive selected
                     {

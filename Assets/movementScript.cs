@@ -28,7 +28,7 @@ public class movementScript : MonoBehaviour
         {
             foreach (KeyValuePair<int, GameObject> pair in table)
             {
-                Debug.Log(pair.Value.transform.position);
+                
             }
         }
     }
