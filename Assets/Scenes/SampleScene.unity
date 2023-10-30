@@ -158,8 +158,8 @@ MonoBehaviour:
   maxHeight: 25
   minHeight: 5
   minRotationHeight: 60
-  fastMovement: 0.8
-  normalMovement: 0.04
+  fastMovement: 0.4
+  normalMovement: 0.02
   scrollSpeed: 10
   newPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1575968
