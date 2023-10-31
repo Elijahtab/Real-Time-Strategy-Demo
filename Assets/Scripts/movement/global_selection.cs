@@ -201,7 +201,12 @@ public class global_selection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        selected_table.addSelected(other.gameObject);
+        if (other.GetComponent<Collider>().gameObject.layer == LayerMask.NameToLayer("Selectable"))
+        {
+            selected_table.addSelected(other.gameObject);
+        }
+
+        
     }
 
 }

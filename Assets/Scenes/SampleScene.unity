@@ -1448,7 +1448,7 @@ GameObject:
   - component: {fileID: 1631698151}
   - component: {fileID: 1631698152}
   - component: {fileID: 1631698153}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Detection Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1503,7 +1503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33e893acd61bef147a5255c00d415b59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootingBehavior: {fileID: 0}
 --- !u!1 &1643160209
 GameObject:
   m_ObjectHideFlags: 0
