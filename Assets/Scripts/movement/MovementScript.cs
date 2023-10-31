@@ -30,7 +30,7 @@ public class MovementScript : MonoBehaviour
                     StopAllCoroutines();
                 }
                 
-                Debug.Log("Right click pressed");
+                
                 // Cast a ray from the mouse position to the world
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -58,7 +58,7 @@ public class MovementScript : MonoBehaviour
         {
             while (Vector3.Distance(transform.position, targetPosition) > 1f)
             {
-                Debug.Log(targetPosition);
+                
                 agent.destination = targetPosition;
                 
                 yield return null;

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class detection : MonoBehaviour
+public class DetectionScript : MonoBehaviour
 {
-    public ShootingBehavior shootingBehavior;
+    private ShootingBehavior shootingBehavior;
     private GameObject enemyObject;
 
     // Start is called before the first frame update
@@ -29,11 +29,13 @@ public class detection : MonoBehaviour
         {
             Vector3 raycastOrigin = transform.position;
             Vector3 raycastTarget = enemyObject.transform.position - raycastOrigin;  
-            RaycastHit hitInfo;
-            if (Physics.Raycast(raycastOrigin, raycastTarget, out hitInfo))
+            RaycastHit hit;
+            if (Physics.Raycast(raycastOrigin, raycastTarget, out hit))
             {
-                // You can now access information about the hit, such as the object's name, tag, etc.
-                Debug.Log("Raycast hit: " + hitInfo.collider.gameObject.name);
+                if(hit.collider.CompareTag("enemyUnit"))
+                {
+                    Debug.Log("BOUTTA GET FUCKED");
+                }
             }          
         }
         
