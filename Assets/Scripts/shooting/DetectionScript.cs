@@ -10,7 +10,7 @@ public class DetectionScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shootingBehavior = GetComponent<ShootingBehavior>();
+        shootingBehavior = transform.parent.gameObject.GetComponent<ShootingBehavior>();
     }
 
     private void OnTriggerEnter(Collider enemy)
