@@ -13,16 +13,28 @@ public class DetectionScript : MonoBehaviour
         shootingBehavior = GetComponent<ShootingBehavior>();
     }
 
-    // Update is called once per frame
     private void OnTriggerEnter(Collider enemy)
     {
         if (enemy.CompareTag("enemyUnit"))
         {
             Debug.Log("touch");
             enemyObject = enemy.gameObject;
-            // Do something when a "Player" object enters the trigger area.
+            
+
         }
     }
+
+    private void OnTriggerExit(Collider enemy)
+    {
+        if (enemy.CompareTag("enemyUnit"))
+        {
+            Debug.Log("detouch");
+            enemyObject = null;
+            
+
+        }
+    }
+
     void Update()
     {
         if (enemyObject != null)
