@@ -18,8 +18,9 @@ public class ShootingBehavior : MonoBehaviour
     {
         
     }
-    public void methodDebug(){
-        Debug.Log("test method");
+    public void fireAtEnemyObject(GameObject enemyTarget)
+    {
+        Debug.Log(enemyTarget.transform.position);
     }
     
 }

@@ -15,7 +15,7 @@ public class DetectionScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider enemy)
     {
-        if (enemy.CompareTag("enemyUnit"))
+        if (enemy.CompareTag("Enemy"))
         {
             Debug.Log("touch");
             enemyObject = enemy.gameObject;
@@ -26,7 +26,7 @@ public class DetectionScript : MonoBehaviour
 
     private void OnTriggerExit(Collider enemy)
     {
-        if (enemy.CompareTag("enemyUnit"))
+        if (enemy.CompareTag("Enemy"))
         {
             Debug.Log("detouch");
             enemyObject = null;
@@ -44,9 +44,9 @@ public class DetectionScript : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(raycastOrigin, raycastTarget, out hit))
             {
-                if(hit.collider.CompareTag("enemyUnit"))
+                if(hit.collider.CompareTag("Enemy"))
                 {
-                    Debug.Log("BOUTTA GET FUCKED");
+                    shootingBehavior.fireAtEnemyObject(enemyObject);
                 }
             }          
         }

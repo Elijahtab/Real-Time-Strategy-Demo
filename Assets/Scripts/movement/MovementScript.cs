@@ -60,9 +60,7 @@ public class MovementScript : MonoBehaviour
         {
             while (Vector3.Distance(transform.position, targetPosition) > 1f)
             {
-                Debug.Log(targetPosition);
                 agent.destination = targetPosition;
-                
                 yield return null;
             }
         }

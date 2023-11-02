@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,12 +28,12 @@ public class selected_dictionary : MonoBehaviour
     public void deselect(int id)
     {
         Destroy(selectedTable[id].GetComponent<selection_component>());
-        selectedTable.Remove(id);
         MovementScript movementScript = selectedTable[id].GetComponent<MovementScript>();
         if (movementScript != null)
         {
-                movementScript.isSelected = false; // Change the variable for each object
+            movementScript.isSelected = false; // Change the variable for each object
         }
+        selectedTable.Remove(id);
     }
 
     public void deselectAll()
