@@ -78,12 +78,16 @@ public class ShootingBehavior : MonoBehaviour
         yield break;
         
     }
-    IEnumerator fireAtTarget(GameObject target)
+    public IEnumerator fireAtTarget(GameObject target)
     {
         enemyTarget = target;
         Debug.Log("Firing at target");
         ammoCount--;
         yield break;
+    }
+    public GameObject GetTarget()
+    {
+        return enemyTarget;
     }
     
 }
