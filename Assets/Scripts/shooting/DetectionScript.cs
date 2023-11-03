@@ -6,21 +6,23 @@ public class DetectionScript : MonoBehaviour
 {
     private ShootingBehavior shootingBehavior;
     private GameObject enemyObject;
+    
 
-    // Start is called before the first frame update
-    void Start()
+    private List<GameObject> enemiesInRange = new List<GameObject>();
+
+
+    void Awake()
     {
         shootingBehavior = transform.parent.gameObject.GetComponent<ShootingBehavior>();
     }
 
     private void OnTriggerEnter(Collider enemy)
     {
+
         if (enemy.CompareTag("Enemy"))
         {
-            Debug.Log("touch");
-            enemyObject = enemy.gameObject;
-            
-
+            enemiesInRange.Add(enemy.gameObject);
+            Debug.Log("enemy added");
         }
     }
 
@@ -28,28 +30,27 @@ public class DetectionScript : MonoBehaviour
     {
         if (enemy.CompareTag("Enemy"))
         {
-            Debug.Log("detouch");
-            enemyObject = null;
-            
-
+            enemiesInRange.Remove(enemy.gameObject);
+            shootingBehavior.removeEnemy(enemy.gameObject);           
         }
     }
+    
 
     void Update()
     {
-        if (enemyObject != null)
-        {
+        shootingBehavior.clearEnemies();
+        foreach (GameObject go in enemiesInRange)
+        {  
             Vector3 raycastOrigin = transform.position;
-            Vector3 raycastTarget = enemyObject.transform.position - raycastOrigin;  
+            Vector3 raycastTarget = go.transform.position - raycastOrigin;  
             RaycastHit hit;
-            if (Physics.Raycast(raycastOrigin, raycastTarget, out hit))
+            if (Physics.Raycast(raycastOrigin, raycastTarget, out hit) && hit.collider.CompareTag("Enemy"))                
             {
-                if(hit.collider.CompareTag("Enemy"))
-                {
-                    shootingBehavior.fireAtEnemyObject(enemyObject);
-                }
-            }          
+                shootingBehavior.addEnemy(go);           
+            }
+
         }
+ 
         
     }
 }
