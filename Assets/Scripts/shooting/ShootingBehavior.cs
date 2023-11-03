@@ -11,7 +11,7 @@ public class ShootingBehavior : MonoBehaviour
     public float reloadTime = 3f;
     public float reloadTimer = 3f;
     
-    public List<GameObject> enemiesCanBeTargeted = new List<GameObject>();
+    public List<GameObject> enemiesCanBeTargeted = new List<GameObject>(); //List of enemies that the unit can fire at
 
     // Start is called before the first frame update
     void Awake()
@@ -33,16 +33,15 @@ public class ShootingBehavior : MonoBehaviour
         }
 
         if(canFire == true)
-        {   
-            
+        {
+                
             reloadTimer = 0f;
+            //Find enemy to target
             StartCoroutine(enemyToTarget(result => 
             {
                 Debug.Log("Coroutine finished with result: " + result);
                 StartCoroutine(fireAtTarget(result));
             }));
-            
-            
         }
     }
     public void addEnemy(GameObject enemyObject)
@@ -83,8 +82,7 @@ public class ShootingBehavior : MonoBehaviour
     {
         enemyTarget = target;
         Debug.Log("Firing at target");
-        ammoCount--;    
-        
+        ammoCount--;
         yield break;
     }
     
