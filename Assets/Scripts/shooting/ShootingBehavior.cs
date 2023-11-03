@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ShootingBehavior : MonoBehaviour
 {
-    private int ammoCount = 20;
-    private GameObject enemyTarget;
+    public int ammoCount = 200;
     private bool canFire = false;
     private EnemyClass enemyClass;
     public float reloadTime = 3f;
     public float reloadTimer = 3f;
+    private GameObject selectedEnemy;
     
     public List<GameObject> enemiesCanBeTargeted = new List<GameObject>(); //List of enemies that the unit can fire at
 
@@ -66,28 +66,32 @@ public class ShootingBehavior : MonoBehaviour
             if(enemyClass.isTank == true)
             {
                 callback(go);
-                yield break;
+                break;
             }
                
         }
-        foreach(GameObject go in enemiesCanBeTargeted)
+        if (selectedEnemy == null)
         {
-            callback(go);
-            yield break;
+            // If no tank was found, choose the first enemy in the list
+            if (enemiesCanBeTargeted.Count > 0)
+            {
+                selectedEnemy = enemiesCanBeTargeted[0];
+            }
+        }
+
+        if (selectedEnemy != null)
+        {
+            callback(selectedEnemy);
         }
         yield break;
-        
     }
     public IEnumerator fireAtTarget(GameObject target)
     {
-        enemyTarget = target;
         Debug.Log("Firing at target");
         ammoCount--;
+        StandardBullet standardBullet = GetComponent<StandardBullet>();
+        standardBullet.shooting(target);
         yield break;
-    }
-    public GameObject GetTarget()
-    {
-        return enemyTarget;
     }
     
 }

@@ -2,28 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class standardBullet : MonoBehaviour
+public class StandardBullet : MonoBehaviour
 {
     private Transform targetPosition;
     private GameObject target;
+    public GameObject Bullet;
+
 
     void Update()
     {
-        ShootingBehavior shootingBehavior = GetComponent<ShootingBehavior>();
+        
+    }
+    public void shooting(GameObject target){
+        GameObject newBullet = Instantiate(Bullet, transform.position, Quaternion.Euler(90, 0, 0));
+        Vector3 direction = (target.transform.position - newBullet.transform.position).normalized;
+        newBullet.transform.LookAt(target.transform);
 
-        if (shootingBehavior != null)
+        Rigidbody rb = newBullet.GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            target = shootingBehavior.GetTarget();
-            if (target != null)
-            {
-                targetPosition = target.GetComponent<Transform>();
-                Debug.Log("Firing at target");
-
-                if (targetPosition != null)
-                {
-                    Debug.Log("Target Position: " + targetPosition.position);
-                }
-            }
+            rb.velocity = direction * 7f; // Use the normalized direction vector
         }
+
+        Destroy(newBullet, 6f);
+
     }
 }
