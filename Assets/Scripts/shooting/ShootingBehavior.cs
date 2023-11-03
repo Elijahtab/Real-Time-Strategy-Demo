@@ -34,14 +34,20 @@ public class ShootingBehavior : MonoBehaviour
 
         if(canFire == true)
         {
-                
+            
             reloadTimer = 0f;
             //Find enemy to target
-            StartCoroutine(enemyToTarget(result => 
+            if(selectedEnemy == null)
             {
-                Debug.Log("Coroutine finished with result: " + result);
-                StartCoroutine(fireAtTarget(result));
-            }));
+                StartCoroutine(enemyToTarget(result => 
+                {
+                    
+                    Debug.Log("Coroutine finished with result: " + selectedEnemy);
+                    
+                }));
+            }
+            
+            StartCoroutine(fireAtTarget(selectedEnemy));
         }
     }
     public void addEnemy(GameObject enemyObject)
@@ -66,7 +72,7 @@ public class ShootingBehavior : MonoBehaviour
             if(enemyClass.isTank == true)
             {
                 callback(go);
-                break;
+                yield break;
             }
                
         }

@@ -37,14 +37,18 @@ public class DetectionScript : MonoBehaviour
         //For each enemy in range, check if the raycast from the unit to the enemy hits the enemy
         foreach (GameObject go in enemiesInRange)
         {  
-            Vector3 raycastOrigin = transform.position;
-            Vector3 raycastTarget = go.transform.position - raycastOrigin;  
-            RaycastHit hit;
-            if (Physics.Raycast(raycastOrigin, raycastTarget, out hit) && hit.collider.CompareTag("Enemy"))                
+            if(go != null)
             {
-                //Add the enemy to the list of enemies that can be targeted, in the ShootingBehavior Script
-                shootingBehavior.addEnemy(go);           
+                Vector3 raycastOrigin = transform.position;
+                Vector3 raycastTarget = go.transform.position - raycastOrigin;  
+                RaycastHit hit;
+                if (Physics.Raycast(raycastOrigin, raycastTarget, out hit) && hit.collider.CompareTag("Enemy"))                
+                {
+                    //Add the enemy to the list of enemies that can be targeted, in the ShootingBehavior Script
+                    shootingBehavior.addEnemy(go);           
+                }
             }
+            
 
         }
  
