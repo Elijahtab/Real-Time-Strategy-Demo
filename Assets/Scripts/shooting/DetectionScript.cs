@@ -7,6 +7,7 @@ public class DetectionScript : MonoBehaviour
     private ShootingBehavior shootingBehavior;
     private GameObject enemyObject;
     private List<GameObject> enemiesInRange = new List<GameObject>();
+    public LayerMask ignoreSelectableUnits;
 
     void Awake()
     {
@@ -42,16 +43,14 @@ public class DetectionScript : MonoBehaviour
                 Vector3 raycastOrigin = transform.position;
                 Vector3 raycastTarget = go.transform.position - raycastOrigin;  
                 RaycastHit hit;
-                if (Physics.Raycast(raycastOrigin, raycastTarget, out hit) && hit.collider.CompareTag("Enemy"))                
+                if (Physics.Raycast(raycastOrigin, raycastTarget, out hit) && hit.collider.name == go.name)                
                 {
                     //Add the enemy to the list of enemies that can be targeted, in the ShootingBehavior Script
                     shootingBehavior.addEnemy(go);           
                 }
             }
             
-
         }
  
-        
     }
 }

@@ -13,7 +13,8 @@ public class StandardBullet : MonoBehaviour
     {
         
     }
-    public void shooting(GameObject target){
+    public void shootAt(GameObject target)
+    {
         GameObject newBullet = Instantiate(Bullet, transform.position, Quaternion.Euler(90, 0, 0));
         Vector3 direction = (target.transform.position - newBullet.transform.position).normalized;
         newBullet.transform.LookAt(target.transform);
