@@ -10,13 +10,17 @@ public class ShootingBehavior : MonoBehaviour
     public float reloadTimer = 3f;
     private GameObject selectedEnemy;
     private StandardBullet standardBullet;
+    public float range = 1f;
+    public GameObject detectionZone;
+    public bool enemyManuallySelected = false;
     
     public List<GameObject> enemiesCanBeTargeted = new List<GameObject>(); //List of enemies that the unit can fire at
 
     // Start is called before the first frame update
     void Awake()
     {
-        
+        //Set the scale of the detection zone to the range of the unit
+        detectionZone.transform.localScale = new Vector3(range, range, range);
     }
 
     // Update is called once per frame
@@ -26,6 +30,7 @@ public class ShootingBehavior : MonoBehaviour
         reloadTimer += Time.deltaTime;
         if(enemiesCanBeTargeted.Count != 0 && ammoCount >= 0 && reloadTimer >= reloadTime)
         {
+            isEnemyManuallySelected();
             isSelectedEnemyInRange();
             reloadTimer = 0f;
             if(selectedEnemy == null)
@@ -34,12 +39,7 @@ public class ShootingBehavior : MonoBehaviour
             }
             fireAtTarget(selectedEnemy);
         }
-        foreach(GameObject go in enemiesCanBeTargeted)
-        {
-            Debug.Log(transform.name + go.name);
-        }
-        
-        
+   
 
     }
     public void addEnemy(GameObject enemyObject)
@@ -79,26 +79,35 @@ public class ShootingBehavior : MonoBehaviour
 
     }
 
+    public void selectedEnemyToTarget(GameObject enemyObject)
+    {
+        Debug.Log("enemy manually selected");
+        selectedEnemy = enemyObject;
+        enemyManuallySelected = true;
+    }
+
     private void fireAtTarget(GameObject target)
     {
         ammoCount--;
         StandardBullet standardBullet = GetComponent<StandardBullet>();
         standardBullet.shootAt(target);
     }
-
-    private void isSelectedEnemyInRange()
+    private void isEnemyManuallySelected()
     {
-        foreach(GameObject go in enemiesCanBeTargeted)
+        if(enemyManuallySelected == true && selectedEnemy == null)
         {
-            if(go == selectedEnemy)
-            {
-                return;
-            }
-            else
-            {
-                selectedEnemy = null;
-            }
+            enemyManuallySelected = false;
         }
     }
+    private void isSelectedEnemyInRange()
+    {
+        
+        if((!(enemiesCanBeTargeted.Contains(selectedEnemy)) && enemyManuallySelected == false))
+        {
+            Debug.Log("enemy set to null no in range");
+            selectedEnemy = null;
+        }
+    }
+    
     
 }
