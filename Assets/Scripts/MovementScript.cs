@@ -31,6 +31,7 @@ public class MovementScript : MonoBehaviour
     public void stopAllCoroutines()
     {
         StopAllCoroutines();
+        Debug.Log("all coroutines stopped");
     }
     public void StartMoveToTargetCoroutine(Vector3 targetPosition)
     {
@@ -42,18 +43,27 @@ public class MovementScript : MonoBehaviour
     }
     public IEnumerator MoveToUntilRange(GameObject enemyObject)
     {
-        Debug.Log(enemyObject.transform.position);
         while (enemyObject != null)
         {
+            Debug.Log("while loop running");
             float distance = Vector3.Distance(transform.position, enemyObject.transform.position);
             
-            if (distance > rangeOfUnit)
+            if(distance <= rangeOfUnit)
+            {
+                RaycastHit hit; 
+                if(Physics.Raycast(transform.position, enemyObject.transform.position - transform.position, out hit) && hit.collider.name == enemyObject.name)                
+                {
+                    Debug.Log("stopping movement");
+                    agent.destination = transform.position;        
+                } 
+                else
+                {
+                    agent.destination = enemyObject.transform.position;
+                }           
+            }
+            else
             {
                 agent.destination = enemyObject.transform.position;
-            }
-            else if(distance <= rangeOfUnit)
-            {
-                agent.destination = transform.position;
             }
             yield return null; // Yielding null means the coroutine will continue in the next frame.
         }

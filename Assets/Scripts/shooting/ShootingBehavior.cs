@@ -13,6 +13,7 @@ public class ShootingBehavior : MonoBehaviour
     public float range = 1f;
     public GameObject detectionZone;
     public bool enemyManuallySelected = false;
+    public bool canFire = true;
     
     public List<GameObject> enemiesCanBeTargeted = new List<GameObject>(); //List of enemies that the unit can fire at
 
@@ -37,7 +38,10 @@ public class ShootingBehavior : MonoBehaviour
             {
                 enemyToTarget();
             }
-            fireAtTarget(selectedEnemy);
+            if(canFire == true)
+            {
+                fireAtTarget(selectedEnemy);
+            }
         }
    
 
@@ -85,7 +89,10 @@ public class ShootingBehavior : MonoBehaviour
         selectedEnemy = enemyObject;
         enemyManuallySelected = true;
     }
-
+    public void clearSelectedEnemy()
+    {
+        selectedEnemy = null;
+    }
     private void fireAtTarget(GameObject target)
     {
         ammoCount--;
@@ -102,10 +109,18 @@ public class ShootingBehavior : MonoBehaviour
     private void isSelectedEnemyInRange()
     {
         
-        if((!(enemiesCanBeTargeted.Contains(selectedEnemy)) && enemyManuallySelected == false))
+        if(!(enemiesCanBeTargeted.Contains(selectedEnemy)) && enemyManuallySelected == false)
         {
-            Debug.Log("enemy set to null no in range");
             selectedEnemy = null;
+            canFire = true;
+        }
+        else if(!(enemiesCanBeTargeted.Contains(selectedEnemy)) && enemyManuallySelected == true)
+        {
+            canFire = false;
+        }
+        else
+        {
+            canFire = true;
         }
     }
     

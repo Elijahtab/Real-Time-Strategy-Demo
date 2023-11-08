@@ -25,6 +25,8 @@ public class RightClickScript : MonoBehaviour
                 
             if (Input.GetMouseButtonDown(1)) // Check for right mouse button click
             {
+                shootingBehavior.enemyManuallySelected = false;
+                shootingBehavior.clearSelectedEnemy();
                 if(!(Input.GetKey(KeyCode.LeftShift)))
                 {
                     movementScript.stopAllCoroutines();
