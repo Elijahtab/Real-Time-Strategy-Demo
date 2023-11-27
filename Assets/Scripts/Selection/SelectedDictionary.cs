@@ -2,23 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class selected_dictionary : MonoBehaviour
+public class SelectedDictionary : MonoBehaviour
 {
-    public Dictionary<int, GameObject> selectedTable = new Dictionary<int, GameObject>();
+    public Dictionary<int, GameObject> SelectedTable = new Dictionary<int, GameObject>();
     
     public void addSelected(GameObject go)
     {
         int id = go.GetInstanceID();
 
-        if (!(selectedTable.ContainsKey(id)))
+        if (!(SelectedTable.ContainsKey(id)))
         {
-            selectedTable.Add(id, go);
-            foreach (KeyValuePair<int,GameObject> pair in selectedTable)
+            SelectedTable.Add(id, go);
+            foreach (KeyValuePair<int,GameObject> pair in SelectedTable)
             {
-                IsSelectedScript isSelectedScript = selectedTable[pair.Key].GetComponent<IsSelectedScript>();
+                IsSelectedScript isSelectedScript = SelectedTable[pair.Key].GetComponent<IsSelectedScript>();
                 if (isSelectedScript != null)
                 {
                     isSelectedScript.select(); // Change the variable for each object
+
+                        
                 }
             }
         }
@@ -26,21 +28,21 @@ public class selected_dictionary : MonoBehaviour
 
     public void deselect(int id)
     {
-        IsSelectedScript isSelectedScript = selectedTable[id].GetComponent<IsSelectedScript>();
+        IsSelectedScript isSelectedScript = SelectedTable[id].GetComponent<IsSelectedScript>();
         if (isSelectedScript != null)
         {
             isSelectedScript.deselect(); // Change the variable for each object
         }
-        selectedTable.Remove(id);
+        SelectedTable.Remove(id);
     }
 
     public void deselectAll()
     {
-        foreach(KeyValuePair<int,GameObject> pair in selectedTable)
+        foreach(KeyValuePair<int,GameObject> pair in SelectedTable)
         {
             if(pair.Value != null)
             {
-                IsSelectedScript isSelectedScript = selectedTable[pair.Key].GetComponent<IsSelectedScript>();
+                IsSelectedScript isSelectedScript = SelectedTable[pair.Key].GetComponent<IsSelectedScript>();
                 if (isSelectedScript != null)
                 {
                     isSelectedScript.deselect(); // Change the variable for each object
@@ -48,15 +50,15 @@ public class selected_dictionary : MonoBehaviour
             }
             
         }
-        selectedTable.Clear();
+        SelectedTable.Clear();
         
     }
     public bool isKeyWithin(int id)
     {
-        return selectedTable.ContainsKey(id);
+        return SelectedTable.ContainsKey(id);
     }
     public int numOfEntries()
     {
-        return selectedTable.Count;
+        return SelectedTable.Count;
     }
 }

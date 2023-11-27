@@ -24,10 +24,7 @@ public class MovementScript : MonoBehaviour
             rangeOfUnit = shootingBehavior.range - 0.01f;
         }       
     }
-    void Update()
-    {
-        
-    }
+
     public void stopAllCoroutines()
     {
         StopAllCoroutines();
@@ -45,11 +42,10 @@ public class MovementScript : MonoBehaviour
     {
         while (enemyObject != null)
         {
-            Debug.Log("while loop running");
             float distance = Vector3.Distance(transform.position, enemyObject.transform.position);
-            
             if(distance <= rangeOfUnit)
             {
+                //Check if there is a obstacle between the unit and the enemy object and move to the enemy object if there is a obstacle
                 RaycastHit hit; 
                 if(Physics.Raycast(transform.position, enemyObject.transform.position - transform.position, out hit) && hit.collider.name == enemyObject.name)                
                 {
@@ -65,12 +61,11 @@ public class MovementScript : MonoBehaviour
             {
                 agent.destination = enemyObject.transform.position;
             }
-            yield return null; // Yielding null means the coroutine will continue in the next frame.
+            yield return null; 
         }
     }
     public IEnumerator MoveToTarget(Vector3 targetPosition)
     {
-        
         {
             while (Vector3.Distance(transform.position, targetPosition) > 1f)
             {

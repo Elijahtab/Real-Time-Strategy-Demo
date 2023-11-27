@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class global_selection : MonoBehaviour
+public class GlobalSelection : MonoBehaviour
 {
     
-    selected_dictionary selected_table;
+    SelectedDictionary SelectedTable;
     RaycastHit hit;
 
     bool dragSelect;
@@ -30,7 +30,7 @@ public class global_selection : MonoBehaviour
     void Start()
     {
         
-        selected_table = GetComponent<selected_dictionary>();
+        SelectedTable = GetComponent<SelectedDictionary>();
         dragSelect = false;
     }
 
@@ -62,33 +62,33 @@ public class global_selection : MonoBehaviour
 
                 if(Physics.Raycast(ray,out hit, 50000.0f, layerMask))
                 {
-                    bool keyIsWithin = selected_table.isKeyWithin(hit.transform.gameObject.GetInstanceID());
+                    bool keyIsWithin = SelectedTable.isKeyWithin(hit.transform.gameObject.GetInstanceID());
                     int id = hit.transform.gameObject.GetInstanceID();
-                    int count = selected_table.numOfEntries();
+                    int count = SelectedTable.numOfEntries();
                     if (Input.GetKey(KeyCode.LeftShift)) //inclusive select
                     {
-                        selected_table.addSelected(hit.transform.gameObject);
+                        SelectedTable.addSelected(hit.transform.gameObject);
                     }
                     else if(count == 1)
                     {
                         if(keyIsWithin == true)
                         {
-                            selected_table.deselect(id);
+                            SelectedTable.deselect(id);
                         }
                         else //exclusive selected
                         {
-                            selected_table.deselectAll();
+                            SelectedTable.deselectAll();
 
                             
-                            selected_table.addSelected(hit.transform.gameObject);
+                            SelectedTable.addSelected(hit.transform.gameObject);
                         }
                     }
                     else //exclusive selected
                     {
-                        selected_table.deselectAll();
+                        SelectedTable.deselectAll();
 
                         
-                        selected_table.addSelected(hit.transform.gameObject);
+                        SelectedTable.addSelected(hit.transform.gameObject);
                     }
                 }
                 else //if we didnt hit something
@@ -99,7 +99,7 @@ public class global_selection : MonoBehaviour
                     }
                     else
                     {
-                        selected_table.deselectAll();
+                        SelectedTable.deselectAll();
                     }
                 }
             }
@@ -134,7 +134,7 @@ public class global_selection : MonoBehaviour
 
                 if (!Input.GetKey(KeyCode.LeftShift))
                 {
-                    selected_table.deselectAll();
+                    SelectedTable.deselectAll();
                 }
 
                Destroy(selectionBox, 0.02f);
@@ -203,7 +203,7 @@ public class global_selection : MonoBehaviour
     {
         if (other.GetComponent<Collider>().gameObject.layer == LayerMask.NameToLayer("Selectable"))
         {
-            selected_table.addSelected(other.gameObject);
+            SelectedTable.addSelected(other.gameObject);
         }
 
         
