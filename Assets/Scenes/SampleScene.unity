@@ -5077,8 +5077,10 @@ MonoBehaviour:
   includedLayers:
     serializedVersion: 2
     m_Bits: 768
+  pointTexture: {fileID: 0}
   unitNumber: 0
   unitSpacing: 3
+  uiPrefab: {fileID: 1727335461465711760, guid: 282393b01f506c44399dd9a55b092eec, type: 3}
 --- !u!4 &2101025356 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8887966031854643029, guid: 9c70d8615add9fb4c93398eb9383aa04, type: 3}
