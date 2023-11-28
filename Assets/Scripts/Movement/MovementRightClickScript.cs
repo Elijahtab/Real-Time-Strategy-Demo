@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RightClickScript : MonoBehaviour
+public class MovementRightClickScript : MonoBehaviour
 {
     public bool isSelected = false;
     public bool moreThanOneSelected = false;
@@ -13,14 +13,8 @@ public class RightClickScript : MonoBehaviour
     public LayerMask includedLayers;
     private Vector3 mousePosition;
     private Vector3 currentMousePos;
-    private Vector3 rowDelta;
-    private int rowLength;
-    private bool inDragFormation = false;
-    private Vector3 posChange;
+    private bool inRealTimeFeedback = false;
     private int numberOfIntervals;
-    public Texture2D pointTexture;
-
-    public int unitNumber = 0;
     public float unitSpacing = 1f;
 
     public GameObject uiPrefab;
@@ -33,7 +27,7 @@ public class RightClickScript : MonoBehaviour
     }
     void ClearUIList()
     {
-        // Optionally, you can destroy the GameObjects associated with the list
+        // Destroy the GameObjects associated with the list
         foreach (GameObject obj in instantiatedUIObjects)
         {
             Destroy(obj);
@@ -44,8 +38,7 @@ public class RightClickScript : MonoBehaviour
     void Update()
     {
         
-
-        if(inDragFormation)
+        if(inRealTimeFeedback)
         {
             
             Ray ray2 = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -59,24 +52,22 @@ public class RightClickScript : MonoBehaviour
                 numberOfIntervals += 1;
                 int i = 0;
                 ClearUIList();
+                //Create UI objects that show where the units will go if you unclick right mouse button
                 foreach(KeyValuePair<int,GameObject> pair in selectedDictionary.SelectedTable)
                 {
                     if(pair.Value != null)
                     {
-                        
-                        shootingBehavior = pair.Value.GetComponent<ShootingBehavior>();
-                        movementScript = pair.Value.GetComponent<MovementScript>();
-        
-                        shootingBehavior.enemyManuallySelected = false;
                         if(!(Input.GetKey(KeyCode.LeftShift)))
                         {
                             movementScript.stopAllCoroutines();
                         }
+                        Debug.Log("Mouse position: " + mousePosition);
+                        Debug.Log("Current mouse position: " + currentMousePos);
                         float t = (i % numberOfIntervals) / (float)numberOfIntervals;
                         Vector3 direction = (mousePosition - currentMousePos).normalized;  
                         Vector3 perpendicularDirection = new Vector3(-direction.z, 0, -direction.x).normalized;
                         Vector3 pointOnLine = Vector3.Lerp(mousePosition - perpendicularDirection * (i / (numberOfIntervals)) * unitSpacing, currentMousePos - perpendicularDirection * (i / (numberOfIntervals)) * unitSpacing, t);
-                        GameObject newObject = Instantiate(uiPrefab, pointOnLine, Quaternion.identity);
+                        GameObject newObject = Instantiate(uiPrefab, pointOnLine + new Vector3(0, .5f, 0), Quaternion.identity);
                         instantiatedUIObjects.Add(newObject);
                         i++;
                     }
@@ -94,8 +85,8 @@ public class RightClickScript : MonoBehaviour
                         
                         shootingBehavior = pair.Value.GetComponent<ShootingBehavior>();
                         movementScript = pair.Value.GetComponent<MovementScript>();
-        
                         shootingBehavior.enemyManuallySelected = false;
+
                         if(!(Input.GetKey(KeyCode.LeftShift)))
                         {
                             movementScript.stopAllCoroutines();
@@ -103,28 +94,17 @@ public class RightClickScript : MonoBehaviour
                         float t = (i % numberOfIntervals) / (float)numberOfIntervals;
                         Vector3 direction = (mousePosition - currentMousePos).normalized;  
                         Vector3 perpendicularDirection = new Vector3(-direction.z, 0, -direction.x).normalized;
-                        //Debug.Log($"Perpendicular direction: {perpendicularDirection}");
-                        Vector3 pointOnLine = Vector3.Lerp(mousePosition - perpendicularDirection * (i / (numberOfIntervals)) * unitSpacing, currentMousePos - perpendicularDirection * (i / (numberOfIntervals)) * unitSpacing, t);
-                        
+                        Vector3 pointOnLine = Vector3.Lerp(mousePosition - perpendicularDirection * (i / (numberOfIntervals)) * unitSpacing, currentMousePos - perpendicularDirection * (i / (numberOfIntervals)) * unitSpacing, t);     
                         movementScript.StartMoveToTargetCoroutine(pointOnLine);
-                        //Debug.Log($"Point {i + 1}: {pointOnLine}");
                         i++;
                     }
                 }
-                inDragFormation = false;
+                inRealTimeFeedback = false;
             }
             return;
         }   
-        if(selectedDictionary.SelectedTable.Count > 1)
-        {
-            moreThanOneSelected = true;
-        }
-        else
-        {
-            moreThanOneSelected = false;
-        }
 
-        if (Input.GetMouseButtonDown(1)) // Check for right mouse button click
+        if (Input.GetMouseButtonDown(1) && selectedDictionary.SelectedTable.Count > 0) // Check for right mouse button click
         {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -138,7 +118,7 @@ public class RightClickScript : MonoBehaviour
                     if(moreThanOneSelected)
                     {
                         
-                        inDragFormation =  true;
+                        inRealTimeFeedback =  true;
                         return;
                     }
                     else
