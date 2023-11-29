@@ -38,26 +38,34 @@ public class RoadScript : MonoBehaviour
         {
             currentMousePos = hit2.point;
             float totalDistance = Vector3.Distance(mousePosition, currentMousePos);
+
             numberOfIntervals = Mathf.FloorToInt(totalDistance / roadSize);
-            numberOfIntervals += 1;
+            // Calculate the new totalDistance based on the increments of roadSize
+            float newTotalDistance = numberOfIntervals * roadSize;
+            // Calculate the offset needed to reach the new totalDistance
+            Vector3 offset = (currentMousePos - mousePosition).normalized * (newTotalDistance - totalDistance);
+            // Apply the offset to currentMousePos
+            currentMousePos += offset;
+
             ClearUIList();
             //Create UI objects that show where the roads will go if you unclick right mouse button
-            for(int i = 0; i < numberOfIntervals; i++)
+            for(int i = 0; i < numberOfIntervals+1; i++)
             {
+                Debug.Log(numberOfIntervals);
                 float t = i / (float)numberOfIntervals;
-                Vector3 direction = (mousePosition - currentMousePos).normalized;  
+                Vector3 direction = (mousePosition - currentMousePos).normalized; 
+
+                
                 Vector3 pointOnLine = Vector3.Lerp(mousePosition, currentMousePos, t);
                 
-                Vector3 offset = direction * roadSize;
-                pointOnLine += offset;
-
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 GameObject newObject = Instantiate(prefab, pointOnLine, rotation);
 
-                //Set scale of prefab based on roadSize
+                //Set scale of prefab based on roadSize setting
                 Vector3 newScale = newObject.transform.localScale;
                 newScale.z = roadSize;
                 newObject.transform.localScale = newScale;
+
                 instantiatedUIObjects.Add(newObject);
             }
         }
@@ -78,7 +86,7 @@ public class RoadScript : MonoBehaviour
             if(inRealTimeFeedback)
             {
                 
-                // Show real time feedback of road location
+                // Show real time feedback of road location UI
                 RoadInstantiatorLoop(uiRoadPrefab);
 
                 //On mouse button up instantiate the road permenantly
