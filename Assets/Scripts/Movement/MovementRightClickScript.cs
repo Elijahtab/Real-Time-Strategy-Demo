@@ -37,7 +37,14 @@ public class MovementRightClickScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(selectedDictionary.SelectedTable.Count > 1)
+        {
+            moreThanOneSelected = true;
+        }
+        else
+        {
+            moreThanOneSelected = false;
+        }
         if(inRealTimeFeedback)
         {
             
@@ -57,10 +64,7 @@ public class MovementRightClickScript : MonoBehaviour
                 {
                     if(pair.Value != null)
                     {
-                        if(!(Input.GetKey(KeyCode.LeftShift)))
-                        {
-                            movementScript.stopAllCoroutines();
-                        }
+                        
                         Debug.Log("Mouse position: " + mousePosition);
                         Debug.Log("Current mouse position: " + currentMousePos);
                         float t = (i % numberOfIntervals) / (float)numberOfIntervals;
@@ -111,13 +115,15 @@ public class MovementRightClickScript : MonoBehaviour
             RaycastHit hit;  
             if (Physics.Raycast(ray, out hit, float.MaxValue, includedLayers))
             {
+                Debug.Log("Hit something");
                 mousePosition = hit.point;
                 //If we need to trigger movement
                 if(hit.collider.tag != "Enemy")
                 {
+                    Debug.Log("Hit something that is not an enemy");
                     if(moreThanOneSelected)
                     {
-                        
+                        Debug.Log("More than one selected, beginning feedback");
                         inRealTimeFeedback =  true;
                         return;
                     }

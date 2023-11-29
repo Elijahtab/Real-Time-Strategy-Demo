@@ -56,7 +56,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIRoadPrefab Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3428188960360727546, guid: d606709c11f9f714085e94ea7da70d48, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

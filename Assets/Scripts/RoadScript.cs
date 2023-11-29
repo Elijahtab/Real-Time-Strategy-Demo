@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RightClickBuildingScript : MonoBehaviour
+public class RoadScript : MonoBehaviour
 {
     public LayerMask includedLayers;
     private Vector3 mousePosition;
@@ -13,7 +13,7 @@ public class RightClickBuildingScript : MonoBehaviour
     public GameObject uiRoadPrefab;
     public GameObject roadPrefab;
     private bool inRealTimeFeedback = false;
-    private bool roadSelected = true;
+    public bool roadBeingBuilt = true;
 
 
     private List<GameObject> instantiatedUIObjects = new List<GameObject>();
@@ -58,35 +58,43 @@ public class RightClickBuildingScript : MonoBehaviour
                 Vector3 newScale = newObject.transform.localScale;
                 newScale.z = roadSize;
                 newObject.transform.localScale = newScale;
-
                 instantiatedUIObjects.Add(newObject);
             }
         }
     }
-        
+    public void RoadBeingBuiltActive()
+    {
+        roadBeingBuilt = true;
+    }
+    public void RoadBeingBuiltInactive()
+    {
+        roadBeingBuilt = false;
+    }
     
     void Update()
     {
-        if(inRealTimeFeedback)
+        if(roadBeingBuilt)
         {
-            
-            // Show real time feedback of road location
-            RoadInstantiatorLoop(uiRoadPrefab);
+            if(inRealTimeFeedback)
+            {
+                
+                // Show real time feedback of road location
+                RoadInstantiatorLoop(uiRoadPrefab);
 
-            //On mouse button up instantiate the road permenantly
-            if(Input.GetMouseButtonUp(1))
-            {
-                RoadInstantiatorLoop(roadPrefab);
-                inRealTimeFeedback = false;
+                //On mouse button up instantiate the road permenantly
+                if(Input.GetMouseButtonUp(1))
+                {
+                    RoadInstantiatorLoop(roadPrefab);
+                    instantiatedUIObjects.Clear();
+                    inRealTimeFeedback = false;
+                }
+                return;
+                
             }
-            return;
-            
-        }
-        // Check for mouse input
-        if (Input.GetMouseButtonDown(1))
-        {
-            if(roadSelected)
+            // Check for mouse input
+            if (Input.GetMouseButtonDown(1))
             {
+                
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit; 
                 if (Physics.Raycast(ray, out hit, float.MaxValue, includedLayers))
@@ -95,9 +103,8 @@ public class RightClickBuildingScript : MonoBehaviour
                     inRealTimeFeedback = true;
                     return;
                 }
-            }  
-            
-        }
-        
+                  
+            }
+        } 
     }
 }
