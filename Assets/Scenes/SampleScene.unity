@@ -203,16 +203,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162fa810d5c40a940ba49bf2a18e4dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256
   movementSpeed: 1
   movementTime: 3
   rotateSpeed: 30
-  maxHeight: 40
-  minHeight: 1
+  maxHeight: 80
+  minHeight: 0
   minRotationHeight: 60
   fastMovement: 0.08
   normalMovement: 0.02
-  scrollSpeed: 350
-  shiftScrollSpeedMultiplier: 5
+  scrollSpeed: 50
+  cameraTransform: {fileID: 963194228}
   newPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1575968
 Transform:
