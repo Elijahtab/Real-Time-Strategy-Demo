@@ -35,8 +35,6 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float scrollSpeed = 50f;
     private float shiftScrollSpeedMultiplier = 2f;
-    private Vector3 newZoom;
-    public Transform cameraTransform;
 
 
 
@@ -47,7 +45,6 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         newPosition = transform.position;
-        newZoom = transform.localPosition;
     }
 
     // Update is called once per frame
@@ -55,7 +52,6 @@ public class CameraController : MonoBehaviour
     {
         CameraMovement();
         MouseRotation();
-        MouseZoom();
     }
     
     //Camera movement using WASD, LeftShift
@@ -89,9 +85,33 @@ public class CameraController : MonoBehaviour
         {
             newPosition += (transform.right * -movementSpeed);
         }
+        float scroll = -Input.GetAxis("Mouse ScrollWheel");
+        scroll = scroll * scrollSpeed;
 
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            scroll *= shiftScrollSpeedMultiplier;
+        }
+        if (scroll != 0)
+        {
+            // Get the current mouse position
+            Vector3 mousePosition = Input.mousePosition;
+
+            // Cast a ray from the camera through the mouse position to a plane at the camera's height
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                newPosition = transform.position + (hit.point - transform.position) * -scroll;
+            }
+            newPosition.y = Mathf.Clamp(newPosition.y, 0f, 80f);
+
+
+        }
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
+
     }
+    /**
     void MouseZoom()
     {
         float scroll = -Input.GetAxis("Mouse ScrollWheel");
@@ -101,21 +121,23 @@ public class CameraController : MonoBehaviour
         {
             scroll *= shiftScrollSpeedMultiplier;
         }
-
         if (scroll != 0)
         {
-            newZoom.y += scroll;
-            newZoom.y = Mathf.Clamp(newZoom.y, minHeight, maxHeight);
+            // Get the current mouse position
+            Vector3 mousePosition = Input.mousePosition;
 
-            if (newZoom.y != maxHeight && newZoom.y != minHeight)
+            // Cast a ray from the camera through the mouse position to a plane at the camera's height
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
             {
-                newZoom.z -= scroll;
+                Vector3 newZoom = newPosition + (hit.point - transform.position) * -scroll;
+                transform.position = Vector3.Lerp(transform.position, newZoom, Time.deltaTime * movementTime);
             }
-        
-        }
-        cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newZoom, Time.deltaTime * movementTime);
 
-    }
+        }
+        
+    }*/
     void MouseRotation()
     {
         if (Input.GetMouseButtonDown(2))

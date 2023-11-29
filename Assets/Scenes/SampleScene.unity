@@ -210,12 +210,11 @@ MonoBehaviour:
   movementTime: 3
   rotateSpeed: 30
   maxHeight: 80
-  minHeight: 0
+  minHeight: 10
   minRotationHeight: 60
-  fastMovement: 0.08
-  normalMovement: 0.02
-  scrollSpeed: 50
-  cameraTransform: {fileID: 963194228}
+  fastMovement: 0.8
+  normalMovement: 0.2
+  scrollSpeed: 4
   newPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1575968
 Transform:
@@ -226,7 +225,7 @@ Transform:
   m_GameObject: {fileID: 1575966}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
-  m_LocalPosition: {x: -13.42, y: 6, z: -13.47}
+  m_LocalPosition: {x: -0.83, y: 6, z: -35.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2418,7 +2417,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 0, z: -9.75}
+  m_LocalPosition: {x: 0, y: 5, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
