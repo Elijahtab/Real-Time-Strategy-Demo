@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public LayerMask layerMask;
+
     //Movement speed and duration of movement drift.
     public float movementSpeed;
     public float movementTime;
@@ -31,9 +33,8 @@ public class CameraController : MonoBehaviour
 
     //Scroll speed, shiftScrollMultiplier, and position variable for newPosition.y
     [SerializeField]
-    private float scrollSpeed = 50.0f;
-    public float shiftScrollSpeedMultiplier = 5.0f;
-    private float newPositionY;
+    private float scrollSpeed = 50f;
+    private float shiftScrollSpeedMultiplier = 2f;
 
 
 
@@ -53,7 +54,7 @@ public class CameraController : MonoBehaviour
         MouseRotation();
     }
     
-    //Camera movement using WASD, LeftShift, and ScrollWheel
+    //Camera movement using WASD, LeftShift
     void CameraMovement()
     {
 
@@ -84,35 +85,59 @@ public class CameraController : MonoBehaviour
         {
             newPosition += (transform.right * -movementSpeed);
         }
-
-        //Gets input from scrollWheel
         float scroll = -Input.GetAxis("Mouse ScrollWheel");
-        //Increases downward scrolling
-        if (scroll < 0){
-            scroll = scroll * 2;
-        }
-        float effectiveScrollSpeed = scrollSpeed;
-        
-        //Lets you speed up scroll with shift keys.
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-            effectiveScrollSpeed *= shiftScrollSpeedMultiplier;
-        }
+        scroll = scroll * scrollSpeed;
 
-        //Limits the camera height between min and max height. If statement is used to keep the speed high until 
-        //we get close to the min or max.
-        if(transform.position.y < minHeight + 5 || transform.position.y > maxHeight - 5)
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            newPositionY = Mathf.Clamp(transform.position.y + scroll *effectiveScrollSpeed, minHeight, maxHeight);
+            scroll *= shiftScrollSpeedMultiplier;
         }
-        else {
-            newPositionY = transform.position.y + scroll *effectiveScrollSpeed;
-        }
+        if (scroll != 0)
+        {
+            // Get the current mouse position
+            Vector3 mousePosition = Input.mousePosition;
 
-        //Sets camera's y axis to the scroll position.
-        newPosition.y = newPositionY;
-        //Updates the position of the camera using Vector3.Lerp for smooth movement.
+            // Cast a ray from the camera through the mouse position to a plane at the camera's height
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                newPosition = transform.position + (hit.point - transform.position) * -scroll;
+            }
+            newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
+
+
+        }
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
+
     }
+    /**
+    void MouseZoom()
+    {
+        float scroll = -Input.GetAxis("Mouse ScrollWheel");
+        scroll = scroll * scrollSpeed;
+
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            scroll *= shiftScrollSpeedMultiplier;
+        }
+        if (scroll != 0)
+        {
+            // Get the current mouse position
+            Vector3 mousePosition = Input.mousePosition;
+
+            // Cast a ray from the camera through the mouse position to a plane at the camera's height
+            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            {
+                Vector3 newZoom = newPosition + (hit.point - transform.position) * -scroll;
+                transform.position = Vector3.Lerp(transform.position, newZoom, Time.deltaTime * movementTime);
+            }
+
+        }
+        
+    }*/
     void MouseRotation()
     {
         if (Input.GetMouseButtonDown(2))
