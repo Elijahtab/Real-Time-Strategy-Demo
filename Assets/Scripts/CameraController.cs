@@ -104,7 +104,7 @@ public class CameraController : MonoBehaviour
             {
                 newPosition = transform.position + (hit.point - transform.position) * -scroll;
             }
-            newPosition.y = Mathf.Clamp(newPosition.y, 0f, 80f);
+            newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
 
 
         }

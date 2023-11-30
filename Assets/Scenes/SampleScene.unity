@@ -210,7 +210,7 @@ MonoBehaviour:
   movementTime: 3
   rotateSpeed: 30
   maxHeight: 80
-  minHeight: 10
+  minHeight: 2.5
   minRotationHeight: 60
   fastMovement: 0.8
   normalMovement: 0.2
