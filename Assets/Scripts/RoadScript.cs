@@ -39,7 +39,7 @@ public class RoadScript : MonoBehaviour
             currentMousePos = hit2.point;
             float totalDistance = Vector3.Distance(mousePosition, currentMousePos);
 
-            numberOfIntervals = Mathf.FloorToInt(totalDistance / roadSize);
+            numberOfIntervals = Mathf.FloorToInt(totalDistance / roadSize) + 1;
             // Calculate the new totalDistance based on the increments of roadSize
             float newTotalDistance = numberOfIntervals * roadSize;
             // Calculate the offset needed to reach the new totalDistance
@@ -49,7 +49,7 @@ public class RoadScript : MonoBehaviour
 
             ClearUIList();
             //Create UI objects that show where the roads will go if you unclick right mouse button
-            for(int i = 0; i < numberOfIntervals+1; i++)
+            for(int i = 0; i < numberOfIntervals; i++)
             {
                 Debug.Log(numberOfIntervals);
                 float t = i / (float)numberOfIntervals;
@@ -60,7 +60,6 @@ public class RoadScript : MonoBehaviour
                 
                 Quaternion rotation = Quaternion.LookRotation(direction);
                 GameObject newObject = Instantiate(prefab, pointOnLine, rotation);
-
                 //Set scale of prefab based on roadSize setting
                 Vector3 newScale = newObject.transform.localScale;
                 newScale.z = roadSize;
