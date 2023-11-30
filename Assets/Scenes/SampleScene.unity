@@ -214,7 +214,7 @@ MonoBehaviour:
   minRotationHeight: 60
   fastMovement: 0.8
   normalMovement: 0.2
-  scrollSpeed: 4
+  scrollSpeed: 5
   newPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1575968
 Transform:
