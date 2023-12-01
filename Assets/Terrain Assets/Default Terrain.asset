@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbf0a996d34c07a4eb5ea8c5725cad09, type: 3}
   m_Name: Default Terrain
   m_EditorClassIdentifier: 
-  autoUpdate: 0
-  meshHeightMultiplier: 0
+  autoUpdate: 1
+  meshHeightMultiplier: 1.2
   useFalloff: 0
