@@ -13,7 +13,6 @@ public class NoiseData : UpdatableData
 	public float persistance;
 	public float lacunarity;
 
-	public int seed;
 	public Vector2 offset;
     protected override void OnValidate(){
         if (lacunarity < 1) {

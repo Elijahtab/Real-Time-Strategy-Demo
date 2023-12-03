@@ -12,9 +12,27 @@ public class MapDisplay : MonoBehaviour {
 		textureRender.transform.localScale = new Vector3 (texture.width, 1, texture.height);
 	}
 
+	
 	public void DrawMesh(MeshData meshData, Texture2D texture) {
-		meshFilter.sharedMesh = meshData.CreateMesh ();
-		meshRenderer.sharedMaterial.mainTexture = texture;
+		meshFilter.sharedMesh = meshData.CreateMesh();
+		meshRenderer.sharedMaterial.mainTexture = texture;    	
 	}
+
+	
+	public void GenerateMeshCollider(MeshData meshData){
+		MeshCollider meshCollider;
+		meshCollider = gameObject.GetComponent<MeshCollider>();
+		if (meshCollider == null) {
+        	meshCollider = gameObject.AddComponent<MeshCollider>();
+    	}
+		// Create a new mesh for collider
+		Mesh colliderMesh = meshData.CreateMesh();
+
+		// Assign the mesh to the collider
+		meshCollider.sharedMesh = colliderMesh;
+		meshCollider.transform.position = meshFilter.transform.position;
+
+	}
+	
 
 }
