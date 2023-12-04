@@ -9,7 +9,9 @@ public class TerrainData : UpdatableData
     public float meshHeightMultiplier;
     public bool useFalloff;
 
-    /*
+	public AnimationCurve meshHeightCurve;
+
+    
     public float minHeight{
         get {
             return uniformScale * meshHeightMultiplier * meshHeightCurve.Evaluate (0);
@@ -19,6 +21,6 @@ public class TerrainData : UpdatableData
         get {
             return uniformScale * meshHeightMultiplier * meshHeightCurve.Evaluate (1);
         }
-    }*/
+    }
 
 }

@@ -13,9 +13,9 @@ public class MapDisplay : MonoBehaviour {
 	}
 
 	
-	public void DrawMesh(MeshData meshData, Texture2D texture) {
+	public void DrawMesh(MeshData meshData) {
 		meshFilter.sharedMesh = meshData.CreateMesh();
-		meshRenderer.sharedMaterial.mainTexture = texture;    	
+		meshFilter.transform.localScale = Vector3.one * FindObjectOfType<MapGenerator> ().terrainData.uniformScale;
 	}
 
 	
@@ -31,6 +31,7 @@ public class MapDisplay : MonoBehaviour {
 		// Assign the mesh to the collider
 		meshCollider.sharedMesh = colliderMesh;
 		meshCollider.transform.position = meshFilter.transform.position;
+		meshCollider.transform.localScale = Vector3.one * FindObjectOfType<MapGenerator> ().terrainData.uniformScale;
 
 	}
 	
