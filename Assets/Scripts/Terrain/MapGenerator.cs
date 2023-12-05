@@ -28,7 +28,8 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 	void OnTextureValuesUpdated(){
-		textureData.ApplyToMaterial (terrainMaterial);
+		textureData.ApplyToMaterial(terrainMaterial);
+
 	}
 
 	public MapData GenerateMapData() {
