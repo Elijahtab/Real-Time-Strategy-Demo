@@ -6,7 +6,7 @@ using System;
 
 public class MapGenerator : MonoBehaviour {
 
-	public enum DrawMode {NoiseMap, Mesh, Collider};
+	public enum DrawMode {NoiseMap, Mesh, Collider, FallOffMap};
 	public DrawMode drawMode;
 
 	public TerrainData terrainData;
@@ -15,12 +15,18 @@ public class MapGenerator : MonoBehaviour {
 	public Material terrainMaterial;
 	public int seed;
 
+	public bool useFallOff;
 
+	float[,] falloffMap;
 	const int mapChunkSize = 111;
 	[Range(0,2)]
 	public int levelOfDetail;
 
 	public bool autoUpdate;
+
+	void Awake(){
+		falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
+	}
 
 	void OnValuesUpdated(){
 		if (!Application.isPlaying){
@@ -37,6 +43,9 @@ public class MapGenerator : MonoBehaviour {
 
 		for (int y = 0; y < mapChunkSize; y++) {
 			for (int x = 0; x < mapChunkSize; x++) {
+				if (useFallOff){
+					noiseMap [x, y] = Mathf.Clamp01(noiseMap[x,y] - falloffMap[x,y]);
+				}
 				float currentHeight = noiseMap [x, y];
 			}
 		}
@@ -45,11 +54,16 @@ public class MapGenerator : MonoBehaviour {
 		MeshData meshData = MeshGenerator.GenerateTerrainMesh (noiseMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, levelOfDetail);
 		if (drawMode == DrawMode.NoiseMap) {
 			display.DrawTexture (TextureGenerator.TextureFromHeightMap (noiseMap));
-		} else if (drawMode == DrawMode.Mesh) {
+		} 
+		else if (drawMode == DrawMode.Mesh) {
 			MeshData visualMeshData = MeshGenerator.GenerateTerrainMesh(noiseMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, levelOfDetail);
 			display.DrawMesh(visualMeshData);			
     		display.GenerateMeshCollider(visualMeshData);		
 		} 
+		else if (drawMode == DrawMode.FallOffMap)
+		{
+			display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
+		}
 		textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
 		return new MapData(noiseMap);
 	}
@@ -69,6 +83,8 @@ public class MapGenerator : MonoBehaviour {
 			textureData.OnValuesUpdated -= OnTextureValuesUpdated;
 			textureData.OnValuesUpdated += OnTextureValuesUpdated;
 		}
+
+		falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
 	}
 
 }
