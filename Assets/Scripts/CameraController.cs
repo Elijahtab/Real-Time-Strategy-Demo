@@ -87,6 +87,7 @@ public class CameraController : MonoBehaviour
         }
         float scroll = -Input.GetAxis("Mouse ScrollWheel");
         scroll = scroll * scrollSpeed;
+       
 
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
@@ -94,20 +95,38 @@ public class CameraController : MonoBehaviour
         }
         if (scroll != 0)
         {
-            // Get the current mouse position
-            Vector3 mousePosition = Input.mousePosition;
+            Vector3 moveDirection = transform.forward;
+            if (scroll < 0){
+                
+                // Get the current mouse position
+                Vector3 mousePosition = Input.mousePosition;                
 
-            // Cast a ray from the camera through the mouse position to a plane at the camera's height
-            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
-            {
-                newPosition = transform.position + (hit.point - transform.position) * -scroll;
+                // Cast a ray from the camera through the mouse position to a plane at the camera's height
+                Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                {
+                    newPosition = transform.position + (hit.point - transform.position) * -scroll;
+                }
+                newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
+
             }
-            newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
+            else if (scroll > 0){
+                Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+                Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
 
+                    // Do something with the hit point
+                    Debug.Log("Hit point: " + hit.point);
 
+                    newPosition = transform.position + (hit.point - transform.position) * scroll;
+                }
+
+            }
         }
+        
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
 
     }
