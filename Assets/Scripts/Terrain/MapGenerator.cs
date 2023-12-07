@@ -15,6 +15,8 @@ public class MapGenerator : MonoBehaviour {
 	public Material terrainMaterial;
 	public int seed;
 
+	public ObjectGenerator objectGenerator;
+
 	public bool useFallOff;
 
 	float[,] falloffMap;
@@ -27,7 +29,7 @@ public class MapGenerator : MonoBehaviour {
 	void Awake(){
 		falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize);
 	}
-
+	
 	void OnValuesUpdated(){
 		if (!Application.isPlaying){
 			GenerateMapData();
@@ -35,7 +37,6 @@ public class MapGenerator : MonoBehaviour {
 	}
 	void OnTextureValuesUpdated(){
 		textureData.ApplyToMaterial(terrainMaterial);
-
 	}
 
 	public MapData GenerateMapData() {
@@ -46,12 +47,12 @@ public class MapGenerator : MonoBehaviour {
 				if (useFallOff){
 					noiseMap [x, y] = Mathf.Clamp01(noiseMap[x,y] - falloffMap[x,y]);
 				}
-				float currentHeight = noiseMap [x, y];
 			}
 		}
 
 		MapDisplay display = FindObjectOfType<MapDisplay> ();
 		MeshData meshData = MeshGenerator.GenerateTerrainMesh (noiseMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, levelOfDetail);
+
 		if (drawMode == DrawMode.NoiseMap) {
 			display.DrawTexture (TextureGenerator.TextureFromHeightMap (noiseMap));
 		} 
@@ -64,6 +65,7 @@ public class MapGenerator : MonoBehaviour {
 		{
 			display.DrawTexture(TextureGenerator.TextureFromHeightMap(FalloffGenerator.GenerateFalloffMap(mapChunkSize)));
 		}
+		objectGenerator.GenerateObjects(noiseMap);
 		textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
 		return new MapData(noiseMap);
 	}

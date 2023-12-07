@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Default Terrain
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  uniformScale: 9.76
-  meshHeightMultiplier: 0.3
+  uniformScale: 1
+  meshHeightMultiplier: 0.36
   useFalloff: 0
   meshHeightCurve:
     serializedVersion: 2
