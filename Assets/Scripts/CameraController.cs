@@ -97,13 +97,31 @@ public class CameraController : MonoBehaviour
             // Get the current mouse position
             Vector3 mousePosition = Input.mousePosition;
 
-            // Cast a ray from the camera through the mouse position to a plane at the camera's height
-            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            
+            
+            if(scroll > 0)
             {
-                newPosition = transform.position + (hit.point - transform.position) * -scroll;
+                Ray ray2 = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+                RaycastHit hit2;
+                if (Physics.Raycast(ray2, out hit2, Mathf.Infinity, layerMask))
+                {
+                    newPosition = transform.position + (hit2.point - transform.position) * -scroll;
+                }
             }
+            else
+            {
+                // Cast a ray from the camera through the mouse position to a plane at the camera's height
+                Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+                {
+                    newPosition = transform.position + (hit.point - transform.position) * -scroll;
+                }
+            }
+            
+
+            
             newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
 
 
