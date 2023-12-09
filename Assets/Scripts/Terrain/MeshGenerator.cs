@@ -9,6 +9,7 @@ public static class MeshGenerator {
 		float topLeftX = (width - 1) / -2f;
 		float topLeftZ = (height - 1) / 2f;
 
+
 		int meshSimplificationImplement = (levelOfDetail == 0)?1:levelOfDetail * 2;
 		int verticesPerLine = (width - 1)/meshSimplificationImplement + 1;
 

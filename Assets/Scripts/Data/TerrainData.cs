@@ -5,7 +5,7 @@ using UnityEngine;
     [CreateAssetMenu()]
 public class TerrainData : UpdatableData
 {
-    public float uniformScale = 2f;
+    public int uniformScale = 2;
     public float meshHeightMultiplier;
     public bool useFalloff;
 

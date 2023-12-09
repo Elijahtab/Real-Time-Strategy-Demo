@@ -24,11 +24,11 @@ MonoBehaviour:
     tint: {r: 0.481983, g: 0.7169812, b: 0.43740356, a: 0}
     tintStrength: 0.192
     startHeight: 0.659
-    blendStrength: 0
+    blendStrength: 0.172
     textureScale: 14.87
   - texture: {fileID: 2800000, guid: d055ab3c590c6f14b8d16df426607aa0, type: 3}
     tint: {r: 0.19569138, g: 0.46226418, b: 0.14681971, a: 0}
     tintStrength: 0.202
     startHeight: 1
-    blendStrength: 0
+    blendStrength: 0.156
     textureScale: 20
