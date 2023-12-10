@@ -32,10 +32,9 @@ public class ObjectGenerator : MonoBehaviour
         int height = heightMap.GetLength(1);
         width *= uniformScale;
         height *= uniformScale;
-        Debug.Log("width: " + width + " height: " + height);
         float topLeftX = (width - 1) / -2f;
 	    float topLeftZ = (height - 1) / 2f;
-        
+        int treeCount = 0;
 
         for (int y = 0; y < height; y++)
         {
@@ -57,12 +56,14 @@ public class ObjectGenerator : MonoBehaviour
                             GameObject instantiatedPrefab = Instantiate(prefabTest, hit.point, Quaternion.identity);
                             Transform parentTransform = foliageParent.transform;
                             instantiatedPrefab.transform.SetParent(parentTransform);
+                            treeCount += 1;
                         }
                     }
                     
                 }
             }
         }
+        Debug.Log("Trees Instantiated: " + treeCount);
     }
 
 
