@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CameraController : MonoBehaviour
 {
     public LayerMask layerMask;
 
     //Movement speed and duration of movement drift.
-    public float movementSpeed;
-    public float movementTime;
+    private float movementSpeed = 1f;
+    private float movementTime = 1f;
 
     //Rotation variables
     public float rotateSpeed;
@@ -20,6 +21,7 @@ public class CameraController : MonoBehaviour
     private float maxHeight;
     [SerializeField]
     private float minHeight;
+    private float adjustedMinHeight;
     
     //Camera tilt limits
     [SerializeField]
@@ -35,8 +37,8 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float scrollSpeed = 50f;
     private float shiftScrollSpeedMultiplier = 2f;
-
-
+    private float adjustedCameraHeight;
+    public float yBaseChange = 10f;
 
     //Vector3 Position for camera
     public Vector3 newPosition;
@@ -52,8 +54,25 @@ public class CameraController : MonoBehaviour
     {
         CameraMovement();
         MouseRotation();
+        KeepAboveTerrain();
     }
     
+    void KeepAboveTerrain()
+    {
+        Vector3 rayPos = new Vector3(transform.position.x, transform.position.y + 1000, transform.position.z);
+        Ray rayDown = new Ray(rayPos, Vector3.down);
+        RaycastHit hitDown;
+        if (Physics.Raycast(rayDown, out hitDown, 10000, layerMask))
+        {
+            adjustedCameraHeight = transform.position.y - hitDown.point.y;
+            if (adjustedCameraHeight < minHeight)
+            {
+                transform.position = new Vector3(transform.position.x, hitDown.point.y + minHeight, transform.position.z);
+                newPosition.y = transform.position.y;
+            }
+        }
+    }
+
     //Camera movement using WASD, LeftShift
     void CameraMovement()
     {
@@ -97,15 +116,16 @@ public class CameraController : MonoBehaviour
             // Get the current mouse position
             Vector3 mousePosition = Input.mousePosition;
 
-            
-            
             if(scroll > 0)
             {
                 Ray ray2 = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
                 RaycastHit hit2;
                 if (Physics.Raycast(ray2, out hit2, Mathf.Infinity, layerMask))
                 {
-                    newPosition = transform.position + (hit2.point - transform.position) * -scroll;
+                    float newY = hit2.point.y - transform.position.y;
+                    newY = newY - yBaseChange;
+                    Vector3 differentialVector = new Vector3(hit2.point.x - transform.position.x, newY, hit2.point.z - transform.position.z);
+                    newPosition = transform.position + differentialVector * -scroll; 
                 }
             }
             else
@@ -113,17 +133,16 @@ public class CameraController : MonoBehaviour
                 // Cast a ray from the camera through the mouse position to a plane at the camera's height
                 Ray ray = Camera.main.ScreenPointToRay(mousePosition);
                 RaycastHit hit;
-
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                 {
-                    newPosition = transform.position + (hit.point - transform.position) * -scroll;
+                    float newY = hit.point.y - transform.position.y;
+                    newY = newY - yBaseChange/4;
+                    Debug.Log(newY);
+                    Vector3 differentialVector = new Vector3(hit.point.x - transform.position.x, newY, hit.point.z - transform.position.z);
+                    newPosition = transform.position + differentialVector * -scroll;
                 }
             }
             
-
-            
-            newPosition.y = Mathf.Clamp(newPosition.y, minHeight, maxHeight);
-
 
         }
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
