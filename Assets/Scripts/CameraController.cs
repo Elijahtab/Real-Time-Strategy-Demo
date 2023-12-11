@@ -147,33 +147,7 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
 
     }
-    /**
-    void MouseZoom()
-    {
-        float scroll = -Input.GetAxis("Mouse ScrollWheel");
-        scroll = scroll * scrollSpeed;
-
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        {
-            scroll *= shiftScrollSpeedMultiplier;
-        }
-        if (scroll != 0)
-        {
-            // Get the current mouse position
-            Vector3 mousePosition = Input.mousePosition;
-
-            // Cast a ray from the camera through the mouse position to a plane at the camera's height
-            Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
-            {
-                Vector3 newZoom = newPosition + (hit.point - transform.position) * -scroll;
-                transform.position = Vector3.Lerp(transform.position, newZoom, Time.deltaTime * movementTime);
-            }
-
-        }
-        
-    }*/
+    
     void MouseRotation()
     {
         if (Input.GetMouseButtonDown(2))
@@ -190,7 +164,7 @@ public class CameraController : MonoBehaviour
             Quaternion currentChildRotation = transform.GetChild(0).transform.rotation;
 
             // Calculate the new X rotation
-            float newChildXRotation = currentChildRotation.eulerAngles.x - verticalRotation;
+            float newChildXRotation = currentChildRotation.eulerAngles.x - (verticalRotation/2);
 
             // Limit the X rotation to be between 10 and 60 degrees
             newChildXRotation = Mathf.Clamp(newChildXRotation, 10, minRotationHeight);
