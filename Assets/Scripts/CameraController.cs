@@ -137,7 +137,6 @@ public class CameraController : MonoBehaviour
                 {
                     float newY = hit.point.y - transform.position.y;
                     newY = newY - yBaseChange/4;
-                    Debug.Log(newY);
                     Vector3 differentialVector = new Vector3(hit.point.x - transform.position.x, newY, hit.point.z - transform.position.z);
                     newPosition = transform.position + differentialVector * -scroll;
                 }
