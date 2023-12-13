@@ -19,6 +19,8 @@ public class ObjectGenerator : MonoBehaviour
     const int mapChunkSize = 111;
     [Range(0,1)]
     public float treeChunkSize = .5f;
+    public bool rotation;
+    private float randomRotation;
 
 
     public void DeleteAll()
@@ -64,6 +66,10 @@ public class ObjectGenerator : MonoBehaviour
                             // Instantiate a new prefab for each condition
                             GameObject instantiatedPrefab = Instantiate(prefabTest, hit.point, Quaternion.identity);
                             Transform parentTransform = foliageParent.transform;
+                            if (rotation == true){
+                                 randomRotation = Random.Range(0, 180);
+                                instantiatedPrefab.transform.Rotate(0f, randomRotation, 0f);
+                            }
                             instantiatedPrefab.transform.SetParent(parentTransform);
                             treeCount += 1;
                         }
