@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Name: Tree Data
   m_EditorClassIdentifier: 
   _uniqueID: 849
-  materialHash: 8cf575aa70fae94fa2164bbe03f653b8215482368
+  materialHash: 5c37073546e25d9fd3750fcfba6a2030215482368
   root:
     _uniqueID: 1
     seed: 1234
@@ -979,7 +979,7 @@ MonoBehaviour:
     parentGroupID: 5
     childGroupIDs: 
     geometryMode: 0
-    materialLeaf: {fileID: 2100000, guid: febbb6ba717094f42a90722f91a529a0, type: 2}
+    materialLeaf: {fileID: 2100000, guid: bb74520ccb9e5e548b4cb7f6a8a52f48, type: 2}
     instanceMesh: {fileID: 0}
     size: {x: 1.1330416, y: 1.2806104}
     perpendicularAlign: 0
@@ -5552,12 +5552,12 @@ Material:
     m_Floats:
     - _Cutoff: 0.3
     - _ShadowOffsetScale: 1
-    - _ShadowStrength: 0.8
+    - _ShadowStrength: 0.22
     - _SquashAmount: 1
-    - _TranslucencyViewDependency: 0.7
+    - _TranslucencyViewDependency: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _TranslucencyColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TranslucencyColor: {r: 0.213865, g: 0.24528301, b: 0.0752047, a: 1}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

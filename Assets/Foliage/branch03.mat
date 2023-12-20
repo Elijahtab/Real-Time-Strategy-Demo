@@ -85,7 +85,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.51171273, g: 0.5660378, b: 0.20024922, a: 1}
+    - _Color: {r: 0.791871, g: 0.8301887, b: 0.57564974, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _TranslucencyColor: {r: 0.73, g: 0.85, b: 0.41, a: 1}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
