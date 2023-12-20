@@ -282,7 +282,7 @@ MonoBehaviour:
   m_Name: Tree Data
   m_EditorClassIdentifier: 
   _uniqueID: 849
-  materialHash: 1b30326836cf009d5f658700a389d19d215482368
+  materialHash: 8cf575aa70fae94fa2164bbe03f653b8215482368
   root:
     _uniqueID: 1
     seed: 1234
@@ -979,7 +979,7 @@ MonoBehaviour:
     parentGroupID: 5
     childGroupIDs: 
     geometryMode: 0
-    materialLeaf: {fileID: 2100000, guid: 6d7720a2a567deb43a146dc668acfe01, type: 2}
+    materialLeaf: {fileID: 2100000, guid: febbb6ba717094f42a90722f91a529a0, type: 2}
     instanceMesh: {fileID: 0}
     size: {x: 1.1330416, y: 1.2806104}
     perpendicularAlign: 0
@@ -5533,19 +5533,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpSpecMap:
-        m_Texture: {fileID: 2800000, guid: 1361cb17a313aaa428ece771d6b528fe, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2b7eb9b000fd3724b95f2d9f1753fca6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b92f3075a519cd94498e90c1a6f80f0d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4ec5260e73574a643af6b52f476069aa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadowTex:
-        m_Texture: {fileID: 2800000, guid: ac18aa7dda2a148419740f4d5e824e8b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 05fc98a7a21c81a4688eeb8b53a227c3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TranslucencyMap:
-        m_Texture: {fileID: 2800000, guid: 8f3d4e6905b4f1746aaab9bed3e32519, type: 3}
+        m_Texture: {fileID: 2800000, guid: a0efe24000c531d4a9302927c92a7210, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -5557,7 +5557,7 @@ Material:
     - _TranslucencyViewDependency: 0.7
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _TranslucencyColor: {r: 0.064119294, g: 0.1981132, b: 0.029280866, a: 1}
+    - _TranslucencyColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
@@ -5585,15 +5585,15 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpSpecMap:
-        m_Texture: {fileID: 2800000, guid: 1361cb17a313aaa428ece771d6b528fe, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2b7eb9b000fd3724b95f2d9f1753fca6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b92f3075a519cd94498e90c1a6f80f0d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 4ec5260e73574a643af6b52f476069aa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TranslucencyMap:
-        m_Texture: {fileID: 2800000, guid: 8f3d4e6905b4f1746aaab9bed3e32519, type: 3}
+        m_Texture: {fileID: 2800000, guid: a0efe24000c531d4a9302927c92a7210, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
