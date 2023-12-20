@@ -1387,7 +1387,7 @@ Material:
     - _TranslucencyViewDependency: 0.7
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _TranslucencyColor: {r: 0, g: 0, b: 0, a: 1}
+    - _TranslucencyColor: {r: 0.29712304, g: 0.4339623, b: 0.15761836, a: 1}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
