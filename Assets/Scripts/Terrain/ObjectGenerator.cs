@@ -93,7 +93,7 @@ public class ObjectGenerator : MonoBehaviour
                             // Instantiate a new prefab for each condition
                             GameObject instantiatedPrefab = Instantiate(grassPrefab, hit.point, Quaternion.identity);
                             Transform parentTransform = foliageParent.transform;
-                            instantiatedPrefab.transform.Rotate(180f, 0f, 0f);
+                            instantiatedPrefab.transform.Rotate(90f, 0f, 0f);
                             instantiatedPrefab.transform.SetParent(parentTransform);
                             grassCount += 1;
                         }
