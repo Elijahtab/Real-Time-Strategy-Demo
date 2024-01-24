@@ -9,7 +9,9 @@ public class ObjectGenerator : MonoBehaviour
     public NoiseData noiseData;
     public int seed;
     public GameObject treePrefab;
-    public GameObject grassPrefab;
+    public GameObject grassPrefab1;
+    public GameObject grassPrefab2;
+    public GameObject grassPrefab3;
     public LayerMask layerMask;
     [Range(0,1)]
     public float treeStartHeight = 0;
@@ -81,21 +83,47 @@ public class ObjectGenerator : MonoBehaviour
                     
                 }
 
-                if (currentHeight <= treeStartHeight)
+                if (currentHeight >= treeStartHeight)
                 {
                     
                     if (Random.value < numOfGrass)
                     {
+                        
                         Ray ray = new Ray(new Vector3(topLeftX + x, 100, topLeftZ - y), Vector3.down);
                         RaycastHit hit;
                         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                         {
-                            // Instantiate a new prefab for each condition
-                            GameObject instantiatedPrefab = Instantiate(grassPrefab, hit.point, Quaternion.identity);
-                            Transform parentTransform = foliageParent.transform;
-                            instantiatedPrefab.transform.Rotate(90f, 0f, 0f);
-                            instantiatedPrefab.transform.SetParent(parentTransform);
-                            grassCount += 1;
+                            
+                            float ranX = Random.Range(0f, 10f);
+                            float ranY = Random.Range(0f, 90f);
+                            float ranZ = Random.Range(0f, 90f);
+                            GameObject instantiatedPrefab = null;
+                            if(Random.value < .333f)
+                            {
+                                // Instantiate a new prefab for each condition
+                                instantiatedPrefab = Instantiate(grassPrefab1, hit.point, Quaternion.identity);
+                                instantiatedPrefab.transform.Rotate(-90f-ranX, ranY, ranZ);
+                            }
+                            else if(Random.value > .666f)
+                            {
+                                // Instantiate a new prefab for each condition
+                                instantiatedPrefab = Instantiate(grassPrefab2, hit.point, Quaternion.identity);
+                                instantiatedPrefab.transform.Rotate(-90f-ranX, ranY, ranZ);
+                            }
+                            else
+                            {
+                                // Instantiate a new prefab for each condition
+                                instantiatedPrefab = Instantiate(grassPrefab3, hit.point, Quaternion.identity);
+                                instantiatedPrefab.transform.Rotate(90f-ranX, ranY, ranZ);
+                            }
+
+                            if(instantiatedPrefab != null)
+                            {
+                                Transform parentTransform = foliageParent.transform;
+                                instantiatedPrefab.transform.SetParent(parentTransform);
+                                grassCount += 1;
+                            }
+                            
                         }
                     }
                     
